@@ -27,7 +27,7 @@ if __name__ == "__main__":
     config = Config(raw_parser)
     api = BambooApi(config)
 
-    loader = tornado.template.Loader("static/")
+    loader = tornado.template.Loader("public/")
     
     application = tornado.web.Application([
         (r"/", IndexHandler, {"config": config, "loader" : loader}),
@@ -35,8 +35,8 @@ if __name__ == "__main__":
         (r"/builds/(.*)", BuildHandler, {"config": config, "api": api}),
         (r"/deploy/", DeployHandler, {"config": config, 
                                       "loader": loader}),
-        (r"/static/(.*)", StaticFileHandler, {"path": "static/"}),
-        (r"/(favicon.ico)", StaticFileHandler, {"path": "static/"})
+        (r"/public/(.*)", StaticFileHandler, {"path": "public/"}),
+        (r"/(favicon.ico)", StaticFileHandler, {"path": "public/"})
     ],debug=True)
 
     application.listen(7070)

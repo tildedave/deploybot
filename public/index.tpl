@@ -1,9 +1,9 @@
 <head>
-  <link rel="stylesheet" href="/static/styles.css" type="text/css" />
+  <link rel="stylesheet" href="/public/styles.css" type="text/css" />
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-  <script type="text/javascript" src="/static/plans.js"></script>
-  <script type="text/javascript" src="/static/builds.js"></script>
-  <script type="text/javascript" src="/static/deploybot.js"></script>
+  <script type="text/javascript" src="/public/javascripts/plans.js"></script>
+  <script type="text/javascript" src="/public/javascripts/builds.js"></script>
+  <script type="text/javascript" src="/public/javascripts/deploybot.js"></script>
   <title>Deploybot</title>
 </head>
 <body>

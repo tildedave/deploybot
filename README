@@ -12,6 +12,9 @@ Python Dependencies:
 Testing Dependencies:
 * mock
 
+Ruby Dependencies:
+* jasmine gem
+
 Images:
 
 Green checkbar from the Diagona icon set at http://p.yusukekamiyamane.com/.

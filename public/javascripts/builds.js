@@ -1,31 +1,49 @@
-var Builds = function (buildEle) {
-  this.buildEle = buildEle;
-  this.selectEle = buildEle.find("#build-select");
-};
+(function (xhr) {
+  "use strict";
 
+  var BuildsProvider = function () {
+  };
 
-Builds.prototype.load = function (plan) {
-  var parentObj = this;
-  jQuery.get("/builds/" + plan, function (data) {
-    parentObj.populateOptions(data);
-  });
-};
+  BuildsProvider.prototype.get = function (plan, builds) {
+    jQuery.get("/builds/" + plan, function (data) {
+      builds.populateOptions(data);
+    });
+  };
 
-Builds.prototype.populateOptions = function (data) {
-  var parentObj = this;
-  var selectEle = this.selectEle;
+  xhr.BuildsProvider = BuildsProvider;
+}(xhr));
 
-  selectEle.empty();
-  $.each(data.builds.build, function (_, build) {
-    selectEle.append(
-      $("<option></option>").
-        attr("value", build.key).
-        text(parentObj.getText(build)));
-  });    
+(function (exports, prov) {
+  "use strict";
+  
+  var Builds = function (buildEle) {
+    this.buildEle = buildEle;
+    this.selectEle = buildEle.find("#build-select");
+    this.provider = new prov.BuildsProvider();
+  };
 
-  selectEle.trigger('change');
-};
+  Builds.prototype.load = function (plan) {
+    this.provider.get(plan, this);
+  };
 
-Builds.prototype.getText = function (build) {
-  return build.key + " - " + build.buildRelativeTime;
-};
+  Builds.prototype.populateOptions = function (data) {
+    var parentObj = this;
+    var selectEle = this.selectEle;
+
+    selectEle.empty();
+    $.each(data.builds.build, function (_, build) {
+      selectEle.append(
+        $("<option></option>").
+          attr("value", build.key).
+          text(parentObj.getText(build)));
+    });    
+
+    selectEle.trigger('change');
+  };
+
+  Builds.prototype.getText = function (build) {
+    return build.key + " - " + build.buildRelativeTime;
+  };
+
+  exports.Builds = Builds;
+}(window, provider));

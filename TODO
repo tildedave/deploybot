@@ -1,0 +1,8 @@
+Potential future directions for deploybot:
+* Specify groups of servers in the config file
+* Remote deploys with Fabric
+* Notifications that a deploy has occurred.
+
+Things that should be fixed:
+* If a deploy fails, actually report failure to the user :)
+* Add JavaScript tests

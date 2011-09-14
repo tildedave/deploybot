@@ -1,0 +1,18 @@
+Deploybot is a tool for automated deployments.
+
+It integrates with Atlassian's Bamboo.
+
+The initial version was written quickly.  It is slowly getting better.
+
+Python Dependencies:
+* simplejson
+* requests
+* tornado
+
+Testing Dependencies:
+* mock
+
+Images:
+
+Green checkbar from the Diagona icon set at http://p.yusukekamiyamane.com/.
+Deploy spinner from http://en.wikipedia.org/wiki/File:Spinning_wheel_throbber.gif.

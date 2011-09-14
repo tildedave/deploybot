@@ -1,0 +1,29 @@
+body {
+    font-family: Verdana,arial,sans-serif;
+}
+
+.deploy {
+    padding: 10px 0px;
+}
+
+h1 {
+    font-size: 16pt;
+}
+
+h2 {
+    font-size: 14pt;
+}
+
+h3 {
+    font-size: 10pt;
+}
+
+.author {
+    padding-top: 20pt;
+    font-size: 6pt;
+}
+
+#deploy-spinner {
+    color: green;
+    font-weight: bold;
+}

@@ -95,7 +95,6 @@ describe("Deployer", function () {
     deployButton.click();
 
     var img = deploySpinner.find("img")[0];
-    console.log(img);
     expect(img.src).toContain("greenCheck.png");
   });
 
@@ -111,7 +110,6 @@ describe("Deployer", function () {
     deployButton.click();
 
     var img = deploySpinner.find("img")[0];
-    console.log(img);
     expect(img.src).toContain("failure.png");
   });
 

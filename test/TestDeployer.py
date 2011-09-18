@@ -14,7 +14,7 @@ class TestDeployer(unittest.TestCase):
         deployer = Deployer(config)
         deployer.execute = Mock()
         
-        deployer.deploy("EXAMPLE-TRUNK", "EXAMPLE-TRUNK-5444")
+        deployer.deploy("Staging", "EXAMPLE-TRUNK", "EXAMPLE-TRUNK-5444")
         config.set_plan.assertCalledWith("EXAMPLE-TRUNK")
     
     def test_sets_build(self):
@@ -24,7 +24,7 @@ class TestDeployer(unittest.TestCase):
         deployer = Deployer(config)
         deployer.execute = Mock()
         
-        deployer.deploy("EXAMPLE-2026", "EXAMPLE-2026-45")
+        deployer.deploy("Staging", "EXAMPLE-2026", "EXAMPLE-2026-45")
 
         config.set_build.assertCalledWith("EXAMPLE-2026-45")
 
@@ -35,7 +35,7 @@ class TestDeployer(unittest.TestCase):
         deployer = Deployer(config)
         deployer.execute = Mock()
 
-        deployer.deploy("EXAMPLE-TRUNK", "EXAMPLE-TRUNK-5444")
+        deployer.deploy("Staging", "EXAMPLE-TRUNK", "EXAMPLE-TRUNK-5444")
 
         deployer.execute.assert_called_with("/bin/deploy.sh", "EXAMPLE-TRUNK-5444", 
                                             "/tmp/deploy.log")

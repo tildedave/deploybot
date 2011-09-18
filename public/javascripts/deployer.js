@@ -40,6 +40,8 @@
       "plan": plan,
       "build": build
     };
+
+    console.log(data);
     
     var spinner = jQuery("#deploy-spinner");
     spinner.html('<img src="public/spinner.gif">');

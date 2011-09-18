@@ -4,6 +4,7 @@
   <script type="text/javascript" src="/public/javascripts/provider.js"></script>
   <script type="text/javascript" src="/public/javascripts/plans.js"></script>
   <script type="text/javascript" src="/public/javascripts/builds.js"></script>
+  <script type="text/javascript" src="/public/javascripts/deployer.js"></script>
   <script type="text/javascript" src="/public/javascripts/deploybot.js"></script>
   <title>Deploybot</title>
 </head>
@@ -22,7 +23,7 @@
 
     <div class="environments">
       <h3>Environment</h3>
-      <select>
+      <select id="env-select">
         {% for environment in environments %}
         <option>{{ environment["name"] }}</option>
         {% end %}

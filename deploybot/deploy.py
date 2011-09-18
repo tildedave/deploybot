@@ -15,14 +15,15 @@ class DeployHandler(tornado.web.RequestHandler):
     def post(self):
         plan = self.get_argument("plan")
         build = self.get_argument("build")
-        self.deployer.deploy(plan, build)
+        env = self.get_argument("env")
+        self.deployer.deploy(env, plan, build)
 
 class Deployer:
 
     def __init__(self, config):
         self.config = config
 
-    def deploy(self, plan, build):
+    def deploy(self, env, plan, build):
         deploy_cmd = self.config.get_deploy_command()
         deploy_log = self.config.get_deploy_log()
 

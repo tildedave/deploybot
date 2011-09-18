@@ -53,3 +53,19 @@ class TestConfig(unittest.TestCase):
         
         self.assertEquals("bamboouser", config.get_bamboo_api_user())
         self.assertEquals("ilovebees", config.get_bamboo_api_password())
+
+    def test_gets_environments(self):
+        json = """
+{
+  "environments" : [
+    {
+      "name" : "vagrant",
+      "deploy_command" : "/bin/ls"
+    }
+  ]
+}
+"""
+        config = Config(json)
+        self.assertEquals(1, len(config.get_environments()))
+        env = config.get_environments()[0]
+        self.assertEquals("vagrant", env["name"])

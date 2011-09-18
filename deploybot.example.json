@@ -6,5 +6,19 @@
      "project" : "EXAMPLE",
      "user" : "bamboo_user",
      "password" : "bamboo_password"
-   }
+   },
+   "environments" : [
+     {
+       "name" : "Vagrant",
+       "deploy_command" : "/bin/ls"
+     },
+     {
+       "name" : "Staging",
+       "deploy_command" : "/bin/ls"
+     },
+     {
+       "name" : "Production",
+       "deploy_command" : "/bin/ls"
+     }
+   ]
 }

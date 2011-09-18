@@ -52,3 +52,10 @@ class Config:
         """Returns the password credential used for BasicAuth 
            on the Bamboo API"""
         return self.__get_bamboo_config("password")
+
+    ## Environment Config Options
+    ##
+    ## Probably these should be broken out into their own class
+
+    def get_environments(self):
+        return self.json["environments"]

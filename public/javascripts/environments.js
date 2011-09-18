@@ -50,14 +50,6 @@
       for(var i = 0, l = data.length; i < l; ++i) {
         var status = jQuery("#environment-status").tmpl(data[i]);
         status.appendTo(environments);
-
-        if (env === data[i].plan) {
-          selectPlan = data[i].plan;
-        }
-      }
-
-      if (selectPlan) {
-        jQuery.publish( "select-plan", selectPlan);          
       }
     };
   };

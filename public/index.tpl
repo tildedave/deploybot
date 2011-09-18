@@ -2,6 +2,7 @@
   <link rel="stylesheet" href="/public/styles.css" type="text/css" />
   <script type="text/javascript" src="/public/javascripts/jquery-1.6.4.min.js"></script>
   <script type="text/javascript" src="/public/javascripts/jquery.tmpl.min.js"></script>
+  <script type="text/javascript" src="/public/javascripts/jquery.pubsub.min.js"></script>
   <script type="text/javascript" src="/public/javascripts/provider.js"></script>
   <script type="text/javascript" src="/public/javascripts/environments.js"></script>
   <script type="text/javascript" src="/public/javascripts/plans.js"></script>

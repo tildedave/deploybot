@@ -22,6 +22,15 @@
     this.provider = new prov.BuildsProvider();
   };
 
+  Builds.prototype.bindEvents = function () {
+    var parentObj = this;
+    var provider = this.provider;
+    
+    jQuery.subscribe( "load-builds", function (plan) {
+      provider.get(plan, parentObj);
+    });
+  };
+
   Builds.prototype.load = function (plan) {
     this.provider.get(plan, this);
   };

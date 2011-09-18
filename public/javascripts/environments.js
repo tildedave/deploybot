@@ -17,9 +17,8 @@
 (function (exports, prov) {
   "use strict";
 
-  var Environments = function (envSelector, plans) {
+  var Environments = function (envSelector) {
     this.envSelector = envSelector;
-    this.plans = plans;
     this.provider = new prov.EnvironmentsProvider();
   };
 
@@ -27,18 +26,21 @@
     this.provider.get(jQuery.proxy(this.renderEnvironments(env),
                                    this));
   };
-
+  
   Environments.prototype.bindEvents = function () {
+    var envSelector = this.envSelector;
     var parentObj = this;
+    
     this.envSelector.bind('change', function () {
-      console.log("ZOMG CHANGE " + jQuery(this).val());
-      parentObj.renderEnvironments(jQuery(this).val());
+      jQuery.publish( "new-environment", jQuery(this).val() );
+    });
+
+    jQuery.subscribe( "new-environment", function (env) {
+      jQuery.proxy(parentObj.renderEnvironments(env), parentObj);
     });
   };
   
   Environments.prototype.renderEnvironments = function (env) {
-    var plans = this.plans;
-    
     return function (data) {
       var environments = jQuery(".status");
       var selectPlan = null;
@@ -54,13 +56,12 @@
         }
       }
 
-      plans.load(selectPlan);
+      if (selectPlan) {
+        jQuery.publish( "select-plan", selectPlan);          
+      }
     };
   };
 
   exports.Environments = Environments;
   
 }(window, provider));
-
-
-

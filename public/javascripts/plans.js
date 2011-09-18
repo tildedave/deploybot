@@ -1,24 +1,28 @@
-var Plans = function (ele, builds) {
+var Plans = function (ele) {
   this.url = "/plans/";
   this.ele = ele;
-  this.builds = builds;
-}
+};
 
-Plans.prototype.load = function (lastPlan) {
+Plans.prototype.load = function () {
   var parentObj = this;
   jQuery.get(this.url, function (data) {
-    parentObj.populateOptions(data, lastPlan);
+    parentObj.populateOptions(data);
   });
 };
 
 Plans.prototype.bindEvents = function () {
-  var builds = this.builds;
-  this.ele.bind('change', function () {
-    builds.load(jQuery(this).val());
+  var ele = this.ele;
+
+  ele.bind('change', function () {
+    jQuery.publish("load-builds", jQuery(this).val());
+  });
+
+  jQuery.subscribe( 'select-plan', function (plan) {
+    ele.val(plan);
   });
 };
 
-Plans.prototype.populateOptions = function (data, lastPlan) {
+Plans.prototype.populateOptions = function (data) {
   var parentObj = this;
   var ele = this.ele;
   
@@ -27,7 +31,6 @@ Plans.prototype.populateOptions = function (data, lastPlan) {
                attr("value", build.key).
                text(parentObj.getText(build)));
   });
-  this.ele.val(lastPlan);
   this.ele.trigger('change');
 };
 

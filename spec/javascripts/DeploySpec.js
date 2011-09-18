@@ -4,14 +4,14 @@ describe("Deployer", function () {
   var planSelector;
   var buildSelector;
   var deployButton;
-
+  var deploySpinner;
+      
   var getMockProvider = function () {
     var mockProvider = {
       deploy : function (data, callback) {
         callback.call();
       }
     };
-    spyOn(mockProvider, "deploy");
 
     return mockProvider;
   };
@@ -21,18 +21,21 @@ describe("Deployer", function () {
     planSelector = $("<select></select>");
     buildSelector = $("<select></select>");
     deployButton = $('<input type="button" />');
+    deploySpinner = $('<div id="deploy-spinner" />');
     
     var page = $('<div class="page" />');
     envSelector.appendTo(page);
     planSelector.appendTo(page);
     buildSelector.appendTo(page);
     deployButton.appendTo(page);
+    deploySpinner.appendTo(page);    
 
     setFixtures(page);
   });
   
   it("sends a deploy instruction with the selected options", function () {
     var mockProvider = getMockProvider();
+    spyOn(mockProvider, "deploy");
 
     jQuery("<option>vagrant</option>").appendTo(envSelector);
     jQuery("<option>PROJECT-PLAN</option>").appendTo(planSelector);
@@ -52,6 +55,35 @@ describe("Deployer", function () {
       plan : "PROJECT-PLAN",
       build : "PROJECT-PLAN-6"
     });
+  });
+
+  it("makes a spinner", function () {
+    var mockProvider = getMockProvider();
+    spyOn(mockProvider, "deploy");
+
+    var deployer = new Deployer(deployButton, envSelector,
+                                planSelector, buildSelector);
+    deployer.provider = mockProvider;
+    
+    deployer.bindEvents();
+    deployButton.click();
+
+    var img = deploySpinner.children()[0];
+    expect(img.src).toContain("spinner.gif");
+  });
+
+  it("makes a green checkbox", function () {
+    var mockProvider = getMockProvider();
+
+    var deployer = new Deployer(deployButton, envSelector,
+                                planSelector, buildSelector);
+    deployer.provider = mockProvider;
+    
+    deployer.bindEvents();
+    deployButton.click();
+
+    var img = deploySpinner.children()[0];
+    expect(img.src).toContain("greenCheck.png");
   });
   
 });

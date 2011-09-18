@@ -42,9 +42,9 @@
     };
     
     var spinner = jQuery("#deploy-spinner");
-    spinner.html('<img src="static/spinner.gif">');
+    spinner.html('<img src="public/spinner.gif">');
     this.provider.deploy(data, function () {
-      spinner.html('<img src="static/greenCheck.png"> Deployed');      
+      spinner.html('<img src="public/greenCheck.png"> Deployed');      
     });
   };
 

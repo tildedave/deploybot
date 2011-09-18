@@ -1,11 +1,6 @@
 var Deploybot = {
   
-  go : function (lastPlan) {
-    var envSelector = jQuery("#env-select");
-
-    // Environments
-    var environments = new Environments();
-    environments.load();
+  go : function (lastEnvironment) {
     
     // Build Selector
     var buildArea = jQuery(".builds");
@@ -14,9 +9,15 @@ var Deploybot = {
 
     // Plan Selector
     var planSelector = jQuery("#plan-select");
-    var plans = new Plans(planSelector, builds, lastPlan);
+    var plans = new Plans(planSelector, builds);
     plans.bindEvents();
-    plans.load(lastPlan);
+
+    // Environments
+    var envSelector = jQuery("#env-select");
+    var environments = new Environments(envSelector, plans);
+    environments.bindEvents();
+    environments.load(lastEnvironment);
+    envSelector.change();
 
     // Deploy button
     var deployButton = jQuery("#build-deploy");

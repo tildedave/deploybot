@@ -49,7 +49,7 @@
     spinner.html('<img src="public/spinner.gif">');
     this.provider.deploy(data, function () {
       spinner.html('<img src="public/greenCheck.png"> Deployed');
-      environments.load();      
+      environments.load();
     });
   };
 

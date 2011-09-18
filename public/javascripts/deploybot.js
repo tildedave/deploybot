@@ -16,10 +16,12 @@ var Deploybot = {
 
   bindDeployButton: function (buttonId, planSelector, buildSelector) {  
     jQuery("#" + buttonId).bind('click', function () {
+      var env = envSelector.val();
       var plan = planSelector.val();
       var build = buildSelector.val();
       
       var data = {
+        "env" : env,
         "plan": plan,
         "build": build
       };

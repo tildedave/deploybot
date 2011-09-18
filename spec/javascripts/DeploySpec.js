@@ -15,10 +15,10 @@ describe("Deployer", function () {
     return environments;
   };
   
-  var getMockProvider = function () {
+  var getMockProvider = function (obj) {
     var mockProvider = {
       deploy : function (data, callback) {
-        callback.call();
+        callback(obj);
       }
     };
 
@@ -84,7 +84,7 @@ describe("Deployer", function () {
   });
 
   it("makes a green checkbox", function () {
-    var mockProvider = getMockProvider();
+    var mockProvider = getMockProvider({ success: true });
 
     var deployer = new Deployer(deployButton, envSelector,
                                 planSelector, buildSelector,
@@ -94,13 +94,30 @@ describe("Deployer", function () {
     deployer.bindEvents();
     deployButton.click();
 
-    var img = deploySpinner.children()[0];
+    var img = deploySpinner.find("img")[0];
+    console.log(img);
     expect(img.src).toContain("greenCheck.png");
+  });
+
+  it("makes a red cross", function () {
+    var mockProvider = getMockProvider({ success: false });
+
+    var deployer = new Deployer(deployButton, envSelector,
+                                planSelector, buildSelector,
+                                getMockEnvironments());
+    deployer.provider = mockProvider;
+    
+    deployer.bindEvents();
+    deployButton.click();
+
+    var img = deploySpinner.find("img")[0];
+    console.log(img);
+    expect(img.src).toContain("failure.png");
   });
 
   it("loads environments after a deploy", function () {
     var environments = getMockEnvironments();
-    var mockProvider = getMockProvider();
+    var mockProvider = getMockProvider({ success: true });
 
     var deployer = new Deployer(deployButton, envSelector,
                                 planSelector, buildSelector,

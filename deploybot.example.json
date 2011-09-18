@@ -1,0 +1,10 @@
+{
+   "deploy_command" : "/bin/ls",
+   "deploy_log" : "/tmp/deploy.log",
+   "bamboo" : {
+     "api_root" : "http://bamboo.example.com/rest/api/latest/",
+     "project" : "EXAMPLE",
+     "user" : "bamboo_user",
+     "password" : "bamboo_password"
+   }
+}

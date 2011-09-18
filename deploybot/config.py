@@ -1,19 +1,21 @@
 #!/usr/bin/python2.5
 
+import simplejson as json
+
 class Config:
     
-    def __init__(self, parser):
-        self.parser = parser
+    def __init__(self, data):
+        self.json = json.loads(data)
         self.build = None
         self.plan = None
 
     ## Basic Options
 
     def get_deploy_command(self):
-        return self.parser.get("DEFAULT", "deploy_command")
+        return self.json["deploy_command"]
 
     def get_deploy_log(self):
-        return self.parser.get("DEFAULT", "deploy_log")
+        return self.json["deploy_log"]
 
     ## Current Build
 
@@ -32,7 +34,7 @@ class Config:
     ## Bamboo Config Options
 
     def __get_bamboo_config(self, option):
-        return self.parser.get("Bamboo", option)
+        return self.json["bamboo"][option]
 
     def get_bamboo_project(self):
         """Returns the Current Bamboo Project"""

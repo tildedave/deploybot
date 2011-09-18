@@ -17,14 +17,12 @@ from config import Config
 if __name__ == "__main__":
     parser = OptionParser()
     parser.add_option("-c", "--config", dest="config",
-                      help="config file", metavar="CONFIG",
-                      default="deploybot.conf")
+                      help="json config", metavar="JSON",
+                      default="deploybot.json")
     
     (options, args) = parser.parse_args()
 
-    raw_parser = RawConfigParser()
-    raw_parser.readfp(open(options.config))
-    config = Config(raw_parser)
+    config = Config(open(options.config).read())
     api = BambooApi(config)
 
     loader = tornado.template.Loader("public/")

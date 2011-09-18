@@ -2,6 +2,20 @@
 
 import simplejson as json
 import subprocess
+import tornado.web
+
+class EnvironmentHandler(tornado.web.RequestHandler):
+    
+    def initialize(self, config, environments):
+        self.config = config
+        self.envs = environments
+
+    def get(self, env):
+        if env == "":
+            self.write(json.dumps([e.render() for e in self.envs.list()]))
+
+        e = self.envs.get(env)
+        self.write(json.dumps(e.render()))
 
 class Environment:
     def __init__(self, config, name, deploy_command):
@@ -32,11 +46,27 @@ class Environment:
     def get_name(self):
         return self.name
 
+    def get_deploy_command(self):
+        return self.deploy_command
+
     def get_plan(self):
         return self.plan
 
     def get_build(self):
         return self.build
+
+    def render(self):
+        return {
+            "name" : self.name,
+            "plan" : self.render_status(self.plan),
+            "build" : self.render_status(self.build)
+            }
+
+    def render_status(self, obj):
+        if obj is None:
+            return "Unknown"
+
+        return obj
 
 class Environments:
     
@@ -49,10 +79,14 @@ class Environments:
         return self.environments
 
     def deploy(self, env, plan, build):
+        e = self.get(env)
+        if e: 
+            e.deploy(plan, build)
+    
+    def get(self, env):
         for e in self.environments:
             if e.get_name() == env:
-                e.deploy(plan, build)
-                return
+                return e
 
-
+        return None
 

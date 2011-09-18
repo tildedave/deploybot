@@ -21,6 +21,16 @@ class TestEnvironments(unittest.TestCase):
 
         self.assertEquals(1, len(envs.list()))
 
+    def test_gets_environment(self):
+        envs = [ self.__env("vagrant", "/bin/ls") ]
+        config = Mock()
+        config.get_environments = Mock(return_value=envs) 
+
+        envs = Environments(config)
+
+        self.assertEquals("/bin/ls", envs.get("vagrant").get_deploy_command())
+       
+
     def test_deploys_to_environments(self):
         envs = [ self.__env("vagrant", "/bin/ls") ]
         config = Mock()
@@ -67,3 +77,4 @@ class TestEnvironments(unittest.TestCase):
 
         env.execute.assert_called_with("wget", "EXAMPLE-PLAN-123", 
                                             "/tmp/deploy.log")
+

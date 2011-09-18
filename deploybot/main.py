@@ -9,6 +9,7 @@ from optparse import OptionParser
 from index import IndexHandler
 from plans import PlanHandler
 from builds import BuildHandler
+from environments import EnvironmentHandler
 from deploy import DeployHandler
 
 from environments import Environments
@@ -32,10 +33,15 @@ if __name__ == "__main__":
     application = tornado.web.Application([
         (r"/", IndexHandler, {"config": config, "loader" : loader}),
         (r"/plans/", PlanHandler, {"config": config, "api": api}),
-        (r"/builds/(.*)", BuildHandler, {"config": config, "api": api}),
-        (r"/deploy/", DeployHandler, {"config": config, 
-                                      "environments" : environments,
-                                      "loader": loader}),
+        (r"/environments/(.*)", EnvironmentHandler, 
+         {"config": config, 
+          "environments": environments}),
+        (r"/builds/(.*)", BuildHandler, 
+         {"config": config, "api": api}),
+        (r"/deploy/", DeployHandler, 
+         {"config": config, 
+          "environments" : environments,
+          "loader": loader}),
         (r"/public/(.*)", StaticFileHandler, {"path": "public/"}),
         (r"/(favicon.ico)", StaticFileHandler, {"path": "public/"})
     ],debug=True)

@@ -28,6 +28,9 @@ class Environment:
         p.communicate()
         return cmd
 
+    def get_name(self):
+        return self.name
+
     def get_plan(self):
         return self.plan
 
@@ -37,15 +40,18 @@ class Environment:
 class Environments:
     
     def __init__(self, config):
-        env_list = config.get_environments()
         self.environments = [Environment(config, e["name"], 
                                          e["deploy_command"]) 
-                             for e in env_list]
+                             for e in config.get_environments()]
 
     def list(self):
         return self.environments
 
-
+    def deploy(self, env, plan, build):
+        for e in self.environments:
+            if e.get_name() == env:
+                e.deploy(plan, build)
+                return
 
 
 

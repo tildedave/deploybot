@@ -17,9 +17,22 @@ class TestEnvironments(unittest.TestCase):
         config.get_environments = Mock(return_value=envs)
         config.get_deploy_log = Mock()
 
-        env = Environments(config)
+        envs = Environments(config)
 
-        self.assertEquals(1, len(env.list()))
+        self.assertEquals(1, len(envs.list()))
+
+    def test_deploys_to_environments(self):
+        envs = [ self.__env("vagrant", "/bin/ls") ]
+        config = Mock()
+        config.get_environments = Mock(return_value=envs)
+
+        envs = Environments(config)
+        env = envs.list()[0]
+        env.deploy = Mock()
+
+        envs.deploy("vagrant", "EXAMPLE-PLAN", "EXAMPLE-PLAN-56")
+
+        env.deploy.assert_called_with("EXAMPLE-PLAN", "EXAMPLE-PLAN-56")
 
     def test_sets_build_on_deploy(self):
         config = Mock()

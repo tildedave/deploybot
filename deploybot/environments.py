@@ -12,7 +12,6 @@ class EnvironmentHandler(tornado.web.RequestHandler):
 
     def get(self, env):
         if len(env) is 0:
-            print "AGH"
             self.write(json.dumps([e.render() for e in self.envs.list()]))
             return
 

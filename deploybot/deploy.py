@@ -15,4 +15,9 @@ class DeployHandler(tornado.web.RequestHandler):
         build = self.get_argument("build")
         env = self.get_argument("env")
 
-        self.environments.deploy(env, plan, build)
+        result = self.environments.deploy(env, plan, build)
+
+        response = {}
+        response["success"] = (result == 0)
+        self.write(response)
+

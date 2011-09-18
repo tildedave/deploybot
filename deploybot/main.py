@@ -21,6 +21,9 @@ if __name__ == "__main__":
     parser.add_option("-c", "--config", dest="config",
                       help="json config", metavar="JSON",
                       default="deploybot.json")
+    parser.add_option("-p", "--port", dest="port",
+                      help="port", metavar="JSON",
+                      default="7070")
     
     (options, args) = parser.parse_args()
 
@@ -46,6 +49,6 @@ if __name__ == "__main__":
         (r"/(favicon.ico)", StaticFileHandler, {"path": "public/"})
     ],debug=True)
 
-    application.listen(7070)
+    application.listen(int(options.port))
     application.debug = True
     tornado.ioloop.IOLoop.instance().start()

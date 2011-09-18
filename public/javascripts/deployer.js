@@ -6,7 +6,7 @@
 
   DeployProvider.prototype.deploy = function (data, callback) { 
     jQuery.post("/deploy/", data, function (response) {
-      callback.call(response);
+      callback(response);
     });
   };
 
@@ -47,8 +47,13 @@
     
     var spinner = jQuery("#deploy-spinner");
     spinner.html('<img src="public/spinner.gif">');
-    this.provider.deploy(data, function () {
-      spinner.html('<img src="public/greenCheck.png"> Deployed');
+    this.provider.deploy(data, function (response) {
+      if (response.success) {
+        spinner.html('<span class="success"><img src="public/greenCheck.png">Deployed</span>');
+      }
+      else {
+        spinner.html('<span class="failure"><img src="public/failure.png"> Failed to Deploy :(</span>');          
+      }
       environments.load();
     });
   };

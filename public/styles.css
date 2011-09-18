@@ -23,7 +23,12 @@ h3 {
     font-size: 6pt;
 }
 
-#deploy-spinner {
+#deploy-spinner .success {
     color: green;
+    font-weight: bold;
+}
+
+#deploy-spinner .failure {
+    color: red;
     font-weight: bold;
 }

@@ -2,7 +2,7 @@
    "deploy_command" : "/bin/ls",
    "deploy_log" : "/tmp/deploy.log",
    "bamboo" : {
-     "api_root" : "http://bamboo.example.com/rest/api/latest/",
+     "api_root" : "http://localhost:5000/",
      "project" : "EXAMPLE",
      "user" : "bamboo_user",
      "password" : "bamboo_password"
@@ -10,15 +10,17 @@
    "environments" : [
      {
        "name" : "Vagrant",
-       "deploy_command" : "/bin/ls"
-     },
-     {
-       "name" : "Staging",
-       "deploy_command" : "/bin/echo"
-     },
-     {
-       "name" : "Production",
-       "deploy_command" : "/bin/ls"
-     }
+       "fabric" : {
+         "fabfile" : "example_fabfile.py",
+         "username" : "vagrant",
+         "password" : "vagrant",
+         "hosts" : [
+           "127.0.0.1:2222"
+         ],
+         "arguments" : {
+            "comment" : "extra_variables_go_here"
+         }
+       }
+      }
    ]
 }

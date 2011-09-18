@@ -4,6 +4,8 @@ import simplejson as json
 import subprocess
 import tornado.web
 
+from fabric_deployer import FabricDeployer
+
 class EnvironmentHandler(tornado.web.RequestHandler):
     
     def initialize(self, config, environments):
@@ -19,10 +21,10 @@ class EnvironmentHandler(tornado.web.RequestHandler):
         self.write(json.dumps(e.render()))
 
 class Environment:
-    def __init__(self, config, name, deploy_command):
+    def __init__(self, config, name, deployer):
         self.config = config
         self.name = name
-        self.deploy_command = deploy_command
+        self.deployer = deployer
         self.build = None
         self.plan = None
 
@@ -30,19 +32,7 @@ class Environment:
         self.build = build
         self.plan = plan
 
-        self.execute(self.deploy_command, build, 
-                     self.config.get_deploy_log())
-
-    def execute(self, cmd, build, log):
-        print "Launching %s, outputting to %s" % (cmd, log)
-
-        logfile = file(log, "w")
-        p = subprocess.Popen([ cmd, build ], 
-                             stdout=logfile,
-                             stderr=logfile,
-                             close_fds=True)
-        p.communicate()
-        return cmd
+        return self.deployer.deploy(build, self.config.get_deploy_log())
 
     def get_name(self):
         return self.name
@@ -70,11 +60,12 @@ class Environment:
         return obj
 
 class Environments:
-    
+
     def __init__(self, config):
         self.config = config
-        self.environments = [Environment(config, e["name"], 
-                                         e["deploy_command"]) 
+        self.environments = [Environment(config, 
+                                         e["name"], 
+                                         FabricDeployer(e["fabric"]))
                              for e in config.get_environments()]
 
     def list(self):
@@ -84,7 +75,9 @@ class Environments:
         e = self.get(env)
         if e: 
             self.config.set_environment(env)
-            e.deploy(plan, build)
+            return e.deploy(plan, build)
+
+        return None
     
     def get(self, env):
         for e in self.environments:

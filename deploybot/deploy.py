@@ -2,8 +2,6 @@
 
 import tornado.web
 import tornado.template
-import subprocess
-import simplejson as json
 
 class DeployHandler(tornado.web.RequestHandler):
 

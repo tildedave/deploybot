@@ -14,7 +14,7 @@
      },
      {
        "name" : "Staging",
-       "deploy_command" : "/bin/ls"
+       "deploy_command" : "/bin/echo"
      },
      {
        "name" : "Production",

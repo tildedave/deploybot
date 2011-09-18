@@ -5,12 +5,13 @@ from tornado.web import StaticFileHandler
 import tornado.template
 
 from optparse import OptionParser
-from ConfigParser import RawConfigParser
 
 from index import IndexHandler
 from plans import PlanHandler
 from builds import BuildHandler
 from deploy import DeployHandler
+
+from environments import Environments
 from api import BambooApi
 from config import Config
 
@@ -23,6 +24,7 @@ if __name__ == "__main__":
     (options, args) = parser.parse_args()
 
     config = Config(open(options.config).read())
+    environments = Environments(config)
     api = BambooApi(config)
 
     loader = tornado.template.Loader("public/")
@@ -32,6 +34,7 @@ if __name__ == "__main__":
         (r"/plans/", PlanHandler, {"config": config, "api": api}),
         (r"/builds/(.*)", BuildHandler, {"config": config, "api": api}),
         (r"/deploy/", DeployHandler, {"config": config, 
+                                      "environments" : environments,
                                       "loader": loader}),
         (r"/public/(.*)", StaticFileHandler, {"path": "public/"}),
         (r"/(favicon.ico)", StaticFileHandler, {"path": "public/"})

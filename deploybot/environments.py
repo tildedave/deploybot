@@ -1,6 +1,7 @@
 #!/usr/bin/python2.5
 
 import simplejson as json
+import subprocess
 
 class Environment:
     def __init__(self, config, name, deploy_command):

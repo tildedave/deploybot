@@ -22,6 +22,7 @@
   };
 
   Environments.prototype.load = function () {
+    console.log("ZOMG LOAD TIME");
     this.provider.get(jQuery.proxy(this.renderEnvironments, this));
   };
 

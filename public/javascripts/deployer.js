@@ -18,12 +18,14 @@
 (function (exports, prov) {
   "use strict";
   
-  var Deployer = function (ele, envSelector, planSelector, buildSelector) {
+  var Deployer = function (ele, envSelector, planSelector, buildSelector,
+                           environments) {
     this.ele = ele;
     this.envSelector = envSelector;
     this.planSelector = planSelector;
     this.buildSelector = buildSelector;
     this.provider = new prov.DeployProvider();
+    this.environments = environments;
   };
 
   Deployer.prototype.bindEvents = function () {
@@ -34,19 +36,20 @@
     var env = this.envSelector.val();
     var plan = this.planSelector.val();
     var build = this.buildSelector.val();
-    
+
     var data = {
       "env" : env,
       "plan": plan,
       "build": build
     };
 
-    console.log(data);
+    var environments = this.environments;
     
     var spinner = jQuery("#deploy-spinner");
     spinner.html('<img src="public/spinner.gif">');
     this.provider.deploy(data, function () {
-      spinner.html('<img src="public/greenCheck.png"> Deployed');      
+      spinner.html('<img src="public/greenCheck.png"> Deployed');
+      environments.load();      
     });
   };
 

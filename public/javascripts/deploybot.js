@@ -21,7 +21,8 @@ var Deploybot = {
     // Deploy button
     var deployButton = jQuery("#build-deploy");
     var deployer = new Deployer(deployButton, envSelector,
-                                planSelector, buildSelector);
+                                planSelector, buildSelector,
+                                environments);
     deployer.bindEvents();
   }
 };

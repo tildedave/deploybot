@@ -5,7 +5,16 @@ describe("Deployer", function () {
   var buildSelector;
   var deployButton;
   var deploySpinner;
-      
+
+  var getMockEnvironments = function () {
+    var environments = {
+        load : function () {}
+    };
+    spyOn(environments, "load");
+    
+    return environments;
+  };
+  
   var getMockProvider = function () {
     var mockProvider = {
       deploy : function (data, callback) {
@@ -42,7 +51,8 @@ describe("Deployer", function () {
     jQuery("<option>PROJECT-PLAN-6</option>").appendTo(buildSelector);
     
     var deployer = new Deployer(deployButton, envSelector,
-                                planSelector, buildSelector);
+                                planSelector, buildSelector,
+                                getMockEnvironments());
     deployer.provider = mockProvider;
     
     deployer.bindEvents();
@@ -62,7 +72,8 @@ describe("Deployer", function () {
     spyOn(mockProvider, "deploy");
 
     var deployer = new Deployer(deployButton, envSelector,
-                                planSelector, buildSelector);
+                                planSelector, buildSelector,
+                                getMockEnvironments());
     deployer.provider = mockProvider;
     
     deployer.bindEvents();
@@ -76,7 +87,8 @@ describe("Deployer", function () {
     var mockProvider = getMockProvider();
 
     var deployer = new Deployer(deployButton, envSelector,
-                                planSelector, buildSelector);
+                                planSelector, buildSelector,
+                                getMockEnvironments());
     deployer.provider = mockProvider;
     
     deployer.bindEvents();
@@ -85,5 +97,19 @@ describe("Deployer", function () {
     var img = deploySpinner.children()[0];
     expect(img.src).toContain("greenCheck.png");
   });
-  
+
+  it("loads environments after a deploy", function () {
+    var environments = getMockEnvironments();
+    var mockProvider = getMockProvider();
+
+    var deployer = new Deployer(deployButton, envSelector,
+                                planSelector, buildSelector,
+                                environments);
+    deployer.provider = mockProvider;
+
+    deployer.bindEvents();
+    deployButton.click();
+
+    expect(environments.load).toHaveBeenCalled();
+  });
 });

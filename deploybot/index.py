@@ -14,7 +14,6 @@ class Index:
 
     def render_environment(self):
         build = self.config.get_environment()
-        print build
         return self.display_string(build)
 
     def get_environments(self):
@@ -29,6 +28,5 @@ class IndexHandler(tornado.web.RequestHandler):
     def get(self):
         t = self.loader.load("index.tpl")
         env = self.index.render_environment()
-        print "ZOMG %s" % env
         self.write(t.generate(env=env,
                               environments=self.index.get_environments()))

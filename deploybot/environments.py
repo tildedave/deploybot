@@ -83,7 +83,6 @@ class Environments:
     def deploy(self, env, plan, build):
         e = self.get(env)
         if e: 
-            print "setting environtment to %s" % env
             self.config.set_environment(env)
             e.deploy(plan, build)
     

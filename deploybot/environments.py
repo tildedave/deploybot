@@ -72,6 +72,7 @@ class Environment:
 class Environments:
     
     def __init__(self, config):
+        self.config = config
         self.environments = [Environment(config, e["name"], 
                                          e["deploy_command"]) 
                              for e in config.get_environments()]
@@ -82,6 +83,8 @@ class Environments:
     def deploy(self, env, plan, build):
         e = self.get(env)
         if e: 
+            print "setting environtment to %s" % env
+            self.config.set_environment(env)
             e.deploy(plan, build)
     
     def get(self, env):

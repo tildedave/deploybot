@@ -56,7 +56,14 @@
 
   <script type="text/javascript">
     jQuery(document).ready(function () {
-        Deploybot.go("{{plan}}");
+        Deploybot.go("{{env}}");
     });
   </script>
 </body>
+
+
+
+
+
+
+

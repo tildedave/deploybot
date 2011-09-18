@@ -12,12 +12,9 @@ class Index:
             return "Unknown"
         return s
 
-    def render_build(self):
-        build = self.config.get_build()
-        return self.display_string(build)
-
-    def render_plan(self):
-        build = self.config.get_plan()
+    def render_environment(self):
+        build = self.config.get_environment()
+        print build
         return self.display_string(build)
 
     def get_environments(self):
@@ -31,6 +28,7 @@ class IndexHandler(tornado.web.RequestHandler):
 
     def get(self):
         t = self.loader.load("index.tpl")
-        self.write(t.generate(build=self.index.render_build(),
-                              plan=self.index.render_plan(),
+        env = self.index.render_environment()
+        print "ZOMG %s" % env
+        self.write(t.generate(env=env,
                               environments=self.index.get_environments()))

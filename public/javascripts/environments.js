@@ -41,16 +41,17 @@
   };
   
   Environments.prototype.renderEnvironments = function (env) {
+    var envSelector = this.envSelector;
     return function (data) {
       var environments = jQuery(".status");
-      var selectPlan = null;
-      
       environments.empty();
 
       for(var i = 0, l = data.length; i < l; ++i) {
         var status = jQuery("#environment-status").tmpl(data[i]);
         status.appendTo(environments);
       }
+
+      envSelector.val(env);
     };
   };
 

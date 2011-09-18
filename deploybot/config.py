@@ -6,8 +6,7 @@ class Config:
     
     def __init__(self, data):
         self.json = json.loads(data)
-        self.build = None
-        self.plan = None
+        self.environment = None
 
     ## Basic Options
 
@@ -17,19 +16,13 @@ class Config:
     def get_deploy_log(self):
         return self.json["deploy_log"]
 
-    ## Current Build
+    ## Current Environment
 
-    def get_build(self):
-        return self.build
+    def get_environment(self):
+        return self.environment
 
-    def set_build(self, build):
-        self.build = build
-
-    def get_plan(self):
-        return self.plan
-
-    def set_plan(self, plan):
-        self.plan = plan
+    def set_environment(self, environment):
+        self.environment = environment
 
     ## Bamboo Config Options
 

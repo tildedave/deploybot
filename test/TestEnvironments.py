@@ -44,6 +44,20 @@ class TestEnvironments(unittest.TestCase):
 
         env.deploy.assert_called_with("EXAMPLE-PLAN", "EXAMPLE-PLAN-56")
 
+
+    def test_sets_environment_on_deploy(self):
+        envs = [ self.__env("production", "/bin/ls") ]
+        config = Mock()
+        config.get_environments = Mock(return_value=envs)
+        config.set_environment = Mock()
+
+        envs = Environments(config)
+        env = envs.list()[0]
+        env.deploy = Mock()
+
+        envs.deploy("production", "EXAMPLE-PLAN", "EXAMPLE-PLAN-56")
+        config.set_environment.assert_called_with("production")
+
     def test_sets_build_on_deploy(self):
         config = Mock()
         config.get_deploy_log = Mock()

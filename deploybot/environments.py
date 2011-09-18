@@ -3,7 +3,8 @@
 import simplejson as json
 
 class Environment:
-    def __init__(self, name, deploy_command):
+    def __init__(self, config, name, deploy_command):
+        self.config = config
         self.name = name
         self.deploy_command = deploy_command
         self.build = None
@@ -12,6 +13,20 @@ class Environment:
     def deploy(self, plan, build):
         self.build = build
         self.plan = plan
+
+        self.execute(self.deploy_command, build, 
+                     self.config.get_deploy_log())
+
+    def execute(self, cmd, build, log):
+        print "Launching %s, outputting to %s" % (cmd, log)
+
+        logfile = file(log, "w")
+        p = subprocess.Popen([ cmd, build ], 
+                             stdout=logfile,
+                             stderr=logfile,
+                             close_fds=True)
+        p.communicate()
+        return cmd
 
     def get_plan(self):
         return self.plan
@@ -23,7 +38,8 @@ class Environments:
     
     def __init__(self, config):
         env_list = config.get_environments()
-        self.environments = [Environment(e["name"], e["deploy_command"]) 
+        self.environments = [Environment(config, e["name"], 
+                                         e["deploy_command"]) 
                              for e in env_list]
 
     def list(self):

@@ -40,6 +40,3 @@ class TestDeployer(unittest.TestCase):
         deployer.execute.assert_called_with("/bin/deploy.sh", "EXAMPLE-TRUNK-5444", 
                                             "/tmp/deploy.log")
 
-
-
-

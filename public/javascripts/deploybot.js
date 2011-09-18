@@ -3,6 +3,10 @@ var Deploybot = {
   go : function (lastPlan) {
     var envSelector = jQuery("#env-select");
 
+    // Environments
+    var environments = new Environments();
+    environments.load();
+    
     // Build Selector
     var buildArea = jQuery(".builds");
     var buildSelector = buildArea.find("select");

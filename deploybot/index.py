@@ -20,6 +20,9 @@ class Index:
         build = self.config.get_plan()
         return self.display_string(build)
 
+    def get_environments(self):
+        return self.config.get_environments()
+
 class IndexHandler(tornado.web.RequestHandler):
 
     def initialize(self, config, loader):
@@ -29,4 +32,5 @@ class IndexHandler(tornado.web.RequestHandler):
     def get(self):
         t = self.loader.load("index.tpl")
         self.write(t.generate(build=self.index.render_build(),
-                              plan=self.index.render_plan()))
+                              plan=self.index.render_plan(),
+                              environments=self.index.get_environments()))

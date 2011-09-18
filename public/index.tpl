@@ -20,13 +20,22 @@
     
     <h2>Deploy Build</h2>
 
+    <div class="environments">
+      <h3>Environment</h3>
+      <select>
+        {% for environment in environments %}
+        <option>{{ environment["name"] }}</option>
+        {% end %}
+      </select>
+    </div>
+
     <div class="plans">
-      <h3>Plans</h3>
+      <h3>Plan</h3>
       <select id="plan-select"></select>
     </div>
 
     <div class="builds">
-      <h3>Builds</h3>
+      <h3>Build</h3>
       <select id="build-select"></select>
       <input id="build-deploy" type="button" value="Deploy!" />
       <span id="deploy-spinner"></span>

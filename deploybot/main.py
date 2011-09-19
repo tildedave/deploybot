@@ -11,6 +11,7 @@ from plans import PlanHandler
 from builds import BuildHandler
 from environments import EnvironmentHandler
 from deploy import DeployHandler
+from tail import TailHandler
 
 from environments import Environments
 from api import BambooApi
@@ -41,6 +42,8 @@ if __name__ == "__main__":
           "environments": environments}),
         (r"/builds/(.*)", BuildHandler, 
          {"config": config, "api": api}),
+        (r"/tail/", TailHandler, 
+         {"config": config}),
         (r"/deploy/", DeployHandler, 
          {"config": config, 
           "environments" : environments,

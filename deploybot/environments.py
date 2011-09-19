@@ -1,7 +1,6 @@
 #!/usr/bin/python2.5
 
 import simplejson as json
-import subprocess
 import tornado.web
 
 from fabric_deployer import FabricDeployer

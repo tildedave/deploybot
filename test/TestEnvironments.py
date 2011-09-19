@@ -7,11 +7,16 @@ from mock import Mock
 
 class TestEnvironments(unittest.TestCase):
     
-    def __env(self, name, deploy_command):
-        return { "name" : name, "deploy_command" : deploy_command }
+    def __dummy_fabric_data(self):
+        return {
+            "fabfile" : "awesome_fabfile.py"
+            }
+
+    def __env(self, name):
+        return { "name" : name, "fabric" : self.__dummy_fabric_data() }
 
     def test_lists_environments(self):
-        envs = [ self.__env("vagrant", "/bin/ls") ]
+        envs = [ self.__env("vagrant") ]
 
         config = Mock()
         config.get_environments = Mock(return_value=envs)
@@ -22,17 +27,17 @@ class TestEnvironments(unittest.TestCase):
         self.assertEquals(1, len(envs.list()))
 
     def test_gets_environment(self):
-        envs = [ self.__env("vagrant", "/bin/ls") ]
+        envs = [ self.__env("vagrant") ]
         config = Mock()
         config.get_environments = Mock(return_value=envs) 
 
         envs = Environments(config)
 
-        self.assertEquals("/bin/ls", envs.get("vagrant").get_deploy_command())
+        self.assertTrue(envs.get("vagrant") is not None)
        
 
     def test_deploys_to_environments(self):
-        envs = [ self.__env("vagrant", "/bin/ls") ]
+        envs = [ self.__env("vagrant") ]
         config = Mock()
         config.get_environments = Mock(return_value=envs)
 
@@ -46,7 +51,7 @@ class TestEnvironments(unittest.TestCase):
 
 
     def test_sets_environment_on_deploy(self):
-        envs = [ self.__env("production", "/bin/ls") ]
+        envs = [ self.__env("production") ]
         config = Mock()
         config.get_environments = Mock(return_value=envs)
         config.set_environment = Mock()
@@ -62,8 +67,8 @@ class TestEnvironments(unittest.TestCase):
         config = Mock()
         config.get_deploy_log = Mock()
 
-        env = Environment(config, "vagrant", "/bin/ls")
-        env.execute = Mock()
+        deployer = Mock()
+        env = Environment(config, "vagrant", deployer)
 
         env.deploy("EXAMPLE-PLAN", "EXAMPLE-PLAN-56")
 
@@ -73,8 +78,8 @@ class TestEnvironments(unittest.TestCase):
         config = Mock()
         config.get_deploy_log = Mock()
 
-        env = Environment(config, "staging", "/usr/bin/perl")
-        env.execute = Mock()
+        deployer = Mock()
+        env = Environment(config, "staging", deployer)
 
         env.deploy("EXAMPLE-PLAN", "EXAMPLE-PLAN-39")
 
@@ -85,10 +90,14 @@ class TestEnvironments(unittest.TestCase):
         config.get_deploy_log = Mock(return_value="/tmp/deploy.log")
 
         env = Environment(config, "production", "wget")
-        env.execute = Mock()
+        env.deployer = Mock()
+        env.deployer.deploy = Mock()
 
         env.deploy("EXAMPLE-PLAN", "EXAMPLE-PLAN-123")
 
-        env.execute.assert_called_with("wget", "EXAMPLE-PLAN-123", 
-                                            "/tmp/deploy.log")
+        env.deployer.deploy.assert_called_with("EXAMPLE-PLAN-123", "/tmp/deploy.log")
+
+
+
+
 

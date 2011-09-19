@@ -18,14 +18,12 @@
 (function (exports, prov) {
   "use strict";
   
-  var Deployer = function (ele, envSelector, planSelector, buildSelector,
-                           environments) {
+  var Deployer = function (ele, envSelector, planSelector, buildSelector) {
     this.ele = ele;
     this.envSelector = envSelector;
     this.planSelector = planSelector;
     this.buildSelector = buildSelector;
     this.provider = new prov.DeployProvider();
-    this.environments = environments;
   };
 
   Deployer.prototype.bindEvents = function () {
@@ -43,8 +41,6 @@
       "build": build
     };
 
-    var environments = this.environments;
-    
     var spinner = jQuery("#deploy-spinner");
     spinner.html('<img src="public/spinner.gif">');
     this.provider.deploy(data, function (response) {
@@ -54,7 +50,7 @@
       else {
         spinner.html('<span class="failure"><img src="public/failure.png"> Failed to Deploy :(</span>');          
       }
-      environments.load();
+      jQuery.publish( "deploy" );
     });
   };
 

@@ -18,6 +18,10 @@ var Deploybot = {
     var environments = new Environments(envSelector);
     environments.bindEvents();
     envSelector.change();
+
+    // Tail
+    var tail = new Tail(jQuery("#deploy-tail"));
+    tail.bindEvents();
     
     // Load data that won't change
     environments.load(lastEnvironment);

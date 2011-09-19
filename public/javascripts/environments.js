@@ -38,6 +38,8 @@
     jQuery.subscribe( "new-environment", function (env) {
       jQuery.proxy(parentObj.renderEnvironments(env), parentObj);
     });
+
+    jQuery.subscribe( "deploy", jQuery.proxy(this.load, this));
   };
   
   Environments.prototype.renderEnvironments = function (env) {

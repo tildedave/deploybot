@@ -5,6 +5,7 @@
   <script type="text/javascript" src="/public/javascripts/jquery.pubsub.min.js"></script>
   <script type="text/javascript" src="/public/javascripts/provider.js"></script>
   <script type="text/javascript" src="/public/javascripts/environments.js"></script>
+  <script type="text/javascript" src="/public/javascripts/tail.js"></script>
   <script type="text/javascript" src="/public/javascripts/plans.js"></script>
   <script type="text/javascript" src="/public/javascripts/builds.js"></script>
   <script type="text/javascript" src="/public/javascripts/deployer.js"></script>
@@ -51,6 +52,11 @@
       <select id="build-select"></select>
       <input id="build-deploy" type="button" value="Deploy!" />
       <span id="deploy-spinner"></span>
+    </div>
+
+    <div class="tail">
+        <h3>Deploy Log</h3>
+        <div id="deploy-tail"></div>
     </div>
   </div>
 

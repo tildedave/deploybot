@@ -5,15 +5,6 @@ describe("Deployer", function () {
   var buildSelector;
   var deployButton;
   var deploySpinner;
-
-  var getMockEnvironments = function () {
-    var environments = {
-        load : function () {}
-    };
-    spyOn(environments, "load");
-    
-    return environments;
-  };
   
   var getMockProvider = function (obj) {
     var mockProvider = {
@@ -51,8 +42,7 @@ describe("Deployer", function () {
     jQuery("<option>PROJECT-PLAN-6</option>").appendTo(buildSelector);
     
     var deployer = new Deployer(deployButton, envSelector,
-                                planSelector, buildSelector,
-                                getMockEnvironments());
+                                planSelector, buildSelector);
     deployer.provider = mockProvider;
     
     deployer.bindEvents();
@@ -72,8 +62,7 @@ describe("Deployer", function () {
     spyOn(mockProvider, "deploy");
 
     var deployer = new Deployer(deployButton, envSelector,
-                                planSelector, buildSelector,
-                                getMockEnvironments());
+                                planSelector, buildSelector);
     deployer.provider = mockProvider;
     
     deployer.bindEvents();
@@ -87,8 +76,7 @@ describe("Deployer", function () {
     var mockProvider = getMockProvider({ success: true });
 
     var deployer = new Deployer(deployButton, envSelector,
-                                planSelector, buildSelector,
-                                getMockEnvironments());
+                                planSelector, buildSelector);
     deployer.provider = mockProvider;
     
     deployer.bindEvents();
@@ -102,8 +90,7 @@ describe("Deployer", function () {
     var mockProvider = getMockProvider({ success: false });
 
     var deployer = new Deployer(deployButton, envSelector,
-                                planSelector, buildSelector,
-                                getMockEnvironments());
+                                planSelector, buildSelector);
     deployer.provider = mockProvider;
     
     deployer.bindEvents();
@@ -111,20 +98,5 @@ describe("Deployer", function () {
 
     var img = deploySpinner.find("img")[0];
     expect(img.src).toContain("failure.png");
-  });
-
-  it("loads environments after a deploy", function () {
-    var environments = getMockEnvironments();
-    var mockProvider = getMockProvider({ success: true });
-
-    var deployer = new Deployer(deployButton, envSelector,
-                                planSelector, buildSelector,
-                                environments);
-    deployer.provider = mockProvider;
-
-    deployer.bindEvents();
-    deployButton.click();
-
-    expect(environments.load).toHaveBeenCalled();
   });
 });
